@@ -1,4 +1,3 @@
-import datetime
 from airflow.contrib.hooks.aws_hook import AwsHook
 from airflow.hooks.postgres_hook import PostgresHook 
 from airflow.models import BaseOperator
@@ -10,7 +9,7 @@ class StageToRedshiftOperator(BaseOperator):
     """
     
     ui_color = '#358140'
-    template_fields = ('s3_key')
+    template_fields = ('s3_key',)
     copy_sql = """
         COPY {}
         FROM '{}'
@@ -29,7 +28,8 @@ class StageToRedshiftOperator(BaseOperator):
                  s3_bucket='',
                  s3_key='',
                  json_path='auto',
-                 *args, **kwargs):
+                 *args,
+                 **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.redshift_conn = redshift_conn
